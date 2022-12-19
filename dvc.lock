@@ -33,3 +33,29 @@ stages:
       md5: 7ee46719cab53aed6ad00f0ae651cb26.dir
       size: 139748007
       nfiles: 39209
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/prepared
+      md5: 7ee46719cab53aed6ad00f0ae651cb26.dir
+      size: 139748007
+      nfiles: 39209
+    - path: src/train.py
+      md5: 86d5fcafd837d93f88f15b61c44ec119
+      size: 3440
+    params:
+      params.yaml:
+        train:
+          image_width: 30
+          image_height: 30
+          batch_size: 64
+          learning_rate: 0.1
+          n_epochs: 5
+    outs:
+    - path: metrics.csv
+      md5: a19b49afa79e0ba7bd5d923200511400
+      size: 840
+    - path: models
+      md5: 597f4071237b4375ebdb5759bde933b1.dir
+      size: 14126544
+      nfiles: 1

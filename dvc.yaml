@@ -15,3 +15,14 @@ stages:
     - preprocess.denoise_weight
     outs:
     - data/prepared
+  train:
+    cmd: python src/train.py
+    deps:
+    - data/prepared
+    - src/train.py
+    params:
+    - train
+    outs:
+    - metrics.csv:
+        cache: false
+    - models
