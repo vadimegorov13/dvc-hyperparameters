@@ -1,0 +1,17 @@
+schema: '2.0'
+stages:
+  split:
+    cmd: python src/split.py
+    deps:
+    - path: data/raw/train
+      md5: 0b3cdf7bb8b50f51fd527c8b9ae28609.dir
+      size: 211467209
+      nfiles: 35289
+    - path: src/split.py
+      md5: ece5417f17dc9043a2ea407d946dbbfa
+      size: 1281
+    outs:
+    - path: data/raw/test
+      md5: c9d91ae994ca0382c3e0ed4eff465c93.dir
+      size: 24175777
+      nfiles: 3920
