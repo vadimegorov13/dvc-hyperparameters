@@ -6,3 +6,12 @@ stages:
     - src/split.py
     outs:
     - data/raw/test
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+    - data/raw/
+    - src/preprocess.py
+    params:
+    - preprocess.denoise_weight
+    outs:
+    - data/prepared

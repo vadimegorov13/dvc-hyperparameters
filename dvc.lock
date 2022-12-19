@@ -15,3 +15,21 @@ stages:
       md5: c9d91ae994ca0382c3e0ed4eff465c93.dir
       size: 24175777
       nfiles: 3920
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+    - path: data/raw/
+      md5: c66070c585a1ad5d4ac7eced7b370066.dir
+      size: 235643097
+      nfiles: 39211
+    - path: src/preprocess.py
+      md5: 5c4b224d5bdb75b2deeb8b243702cbc6
+      size: 1693
+    params:
+      params.yaml:
+        preprocess.denoise_weight: 0.2
+    outs:
+    - path: data/prepared
+      md5: 7ee46719cab53aed6ad00f0ae651cb26.dir
+      size: 139748007
+      nfiles: 39209

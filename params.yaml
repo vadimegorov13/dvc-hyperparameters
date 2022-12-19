@@ -1,0 +1,2 @@
+preprocess:
+  denoise_weight: 0.2
