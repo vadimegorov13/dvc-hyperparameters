@@ -5,12 +5,8 @@ from pathlib import Path
 import numpy as np
 import json
 
-BASE_DIR = Path(__file__).parent.parent
-data_dir = BASE_DIR / "data"
-
 # Extract the parameters
 params = params_show()["train"]
-IMAGE_WIDTH, IMAGE_HEIGHT = params["image_width"], params["image_height"]
 
 
 def plot_metric(metric_df: pd.DataFrame, metric_name: str, plot_path: str):

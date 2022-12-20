@@ -26,3 +26,13 @@ stages:
     - metrics/metrics.csv:
         cache: false
     - models
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - metrics/metrics.csv
+    - src/evaluate.py
+    metrics:
+    - metrics/metrics.json:
+        cache: false
+    plots:
+    - plots

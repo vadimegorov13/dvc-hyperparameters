@@ -59,3 +59,20 @@ stages:
       md5: b73097c62ba595ca6f766f29bf2c25ca.dir
       size: 14126544
       nfiles: 1
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: metrics/metrics.csv
+      md5: 4b28f3682d763934305d27ea4b78d63d
+      size: 839
+    - path: src/evaluate.py
+      md5: 093bfe6a2c93f0aa476e702395faf2f8
+      size: 1743
+    outs:
+    - path: metrics/metrics.json
+      md5: aa60e8a0b4e62f69ba6770a2968a1b6b
+      size: 138
+    - path: plots
+      md5: c3bded73aeeccc8db12458036028f9c8.dir
+      size: 102708
+      nfiles: 4
