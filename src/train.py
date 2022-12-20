@@ -87,7 +87,6 @@ def main():
             model_path / "model.keras", monitor="val_accuracy", save_best_only=True
         ),
         tf.keras.callbacks.EarlyStopping(monitor="val_accuracy", patience=5),
-        tf.keras.callbacks.CSVLogger("metrics.csv"),
     ]
     # Fit the model
     history = model.fit(
