@@ -44,16 +44,16 @@ def get_model():
     model = tf.keras.models.Sequential(
         [
             tf.keras.layers.Conv2D(
-                filters=16,
+                filters=32,
                 kernel_size=3,
                 activation="relu",
                 input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, 3),
             ),
-            tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation="relu"),
+            tf.keras.layers.Conv2D(filters=64, kernel_size=3, activation="relu"),
             tf.keras.layers.MaxPooling2D(2, 2),
             tf.keras.layers.BatchNormalization(axis=-1),
-            tf.keras.layers.Conv2D(filters=64, kernel_size=3, activation="relu"),
             tf.keras.layers.Conv2D(filters=128, kernel_size=3, activation="relu"),
+            tf.keras.layers.Conv2D(filters=256, kernel_size=3, activation="relu"),
             tf.keras.layers.MaxPooling2D(2, 2),
             tf.keras.layers.BatchNormalization(axis=-1),
             tf.keras.layers.Flatten(),
