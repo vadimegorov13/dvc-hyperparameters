@@ -29,10 +29,10 @@ for directory in raw_train_dir.iterdir():
 # for directory in raw_test_dir.iterdir():
 #     train_mirror_path = str(directory).replace("test", "train")
 #     train_mirror_path = Path(train_mirror_path)
-#
+
 #     # Collect image paths in each class of validation directory
 #     image_paths = list(directory.glob("*.png"))
-#
+
 #     # Copy images to train directory
 #     for image_path in image_paths:
 #         shutil.move(image_path, train_mirror_path)
