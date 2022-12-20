@@ -1,0 +1,8 @@
+stages:
+  split:
+    cmd: python src/split.py
+    deps:
+    - data/raw/train
+    - src/split.py
+    outs:
+    - data/raw/test
