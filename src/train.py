@@ -98,7 +98,8 @@ def main():
     )
 
     # Save the metrics
-    pd.DataFrame(history.history).to_csv("metrics.csv", index=False)
+    Path("metrics").mkdir(exist_ok=True)
+    pd.DataFrame(history.history).to_csv("metrics/metrics.csv", index=False)
 
 if __name__ == "__main__":
     main()
