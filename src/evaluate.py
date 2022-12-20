@@ -45,7 +45,9 @@ if __name__ == "__main__":
     #########################################################################################
 
     # Save the best metrics as json
-    sorted_metrics = metrics.sort_values("val_accuracy", ascending=False)
+    sorted_metrics = metrics.sort_values("val_accuracy", ascending=False).reset_index(
+        drop=True
+    )
     metrics_dict = {
         "val_" + metric: sorted_metrics["val_" + metric][0] for metric in metric_names
     }

@@ -1,0 +1,78 @@
+schema: '2.0'
+stages:
+  split:
+    cmd: python src/split.py
+    deps:
+    - path: data/raw/train
+      md5: 0b3cdf7bb8b50f51fd527c8b9ae28609.dir
+      size: 211467209
+      nfiles: 35289
+    - path: src/split.py
+      md5: fe3318be6768091c770f5a13e5e6065f
+      size: 1279
+    outs:
+    - path: data/raw/test
+      md5: c9d91ae994ca0382c3e0ed4eff465c93.dir
+      size: 24175777
+      nfiles: 3920
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+    - path: data/raw/
+      md5: c66070c585a1ad5d4ac7eced7b370066.dir
+      size: 235643097
+      nfiles: 39211
+    - path: src/preprocess.py
+      md5: 5c4b224d5bdb75b2deeb8b243702cbc6
+      size: 1693
+    params:
+      params.yaml:
+        preprocess.denoise_weight: 0.2
+    outs:
+    - path: data/prepared
+      md5: 7ee46719cab53aed6ad00f0ae651cb26.dir
+      size: 139748007
+      nfiles: 39209
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/prepared
+      md5: 7ee46719cab53aed6ad00f0ae651cb26.dir
+      size: 139748007
+      nfiles: 39209
+    - path: src/train.py
+      md5: 53060875c2398402295f24dde2c99d13
+      size: 3437
+    params:
+      params.yaml:
+        train:
+          image_width: 30
+          image_height: 30
+          batch_size: 32
+          learning_rate: 0.01
+          n_epochs: 10
+    outs:
+    - path: metrics/metrics.csv
+      md5: 70859d4f6c9c06b5b0d20262cc2d9369
+      size: 1601
+    - path: models
+      md5: 0f6956b6e50b4e318d54be9dcd6dca05.dir
+      size: 30207656
+      nfiles: 1
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: metrics/metrics.csv
+      md5: 70859d4f6c9c06b5b0d20262cc2d9369
+      size: 1601
+    - path: src/evaluate.py
+      md5: 093bfe6a2c93f0aa476e702395faf2f8
+      size: 1743
+    outs:
+    - path: metrics/metrics.json
+      md5: 1b4e5892fae6fe60464875bfa08226cb
+      size: 139
+    - path: plots
+      md5: f7ccce3c2a47ca78fcdc0b9800f8fd90.dir
+      size: 93577
+      nfiles: 4
