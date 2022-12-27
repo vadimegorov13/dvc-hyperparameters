@@ -14,7 +14,7 @@ logger = Live(save_dvc_exp=True)
 params = {
     "image_width": 30,
     "image_height": 30,
-    "batch_size": 32,
+    "batch_size": 64,
     "learning_rate": 0.001,
     "n_epochs": 10
 }
