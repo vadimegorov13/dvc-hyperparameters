@@ -1,4 +1,6 @@
 [core]
-    remote = dvc_remote
+    remote = origin
 ['remote "dvc_remote"']
     url = /home/bexgboost/dvc_remote
+['remote "origin"']
+    url = https://dagshub.com/BexTuychiev/dvc-tutorial.dvc
