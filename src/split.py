@@ -2,7 +2,6 @@ import shutil
 from pathlib import Path
 import numpy as np
 
-np.random.seed(42)
 
 base_dir = Path(__file__).parent.parent
 raw_train_dir = base_dir / "data" / "raw" / "train"
