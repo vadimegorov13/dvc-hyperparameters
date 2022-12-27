@@ -111,14 +111,4 @@ def main():
 
 
 if __name__ == "__main__":
-    import time
-    
-    # Start a timer
-    start = time.time()
-
-    # Run the experiment
     main()
-    
-    # Log the time elapsed
-    elapsed = time.time() - start
-    logger.log_params({"runtime": round(elapsed, 4)})
