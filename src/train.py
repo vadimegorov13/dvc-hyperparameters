@@ -1,15 +1,11 @@
 from pathlib import Path
 import tensorflow as tf
-from dvc.api import params_show
 import pandas as pd
 
 # Set the paths to the train and validation directories
 BASE_DIR = Path(__file__).parent.parent
 data_dir = BASE_DIR / "data"
 
-# Extract the parameters
-params = params_show()["train"]
-IMAGE_WIDTH, IMAGE_HEIGHT = params["image_width"], params["image_height"]
 
 # Create an ImageDataGenerator object for the train set with augmentation
 train_datagen = tf.keras.preprocessing.image.ImageDataGenerator(
@@ -22,18 +18,18 @@ train_datagen = tf.keras.preprocessing.image.ImageDataGenerator(
 )
 
 train_generator = train_datagen.flow_from_directory(
-    data_dir / "prepared" / "train",
-    target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
-    batch_size=params["batch_size"],
+    data_dir / "raw" / "train",
+    target_size=(30, 30),
+    batch_size=32,
     class_mode="categorical",
 )
 
 # Do the same for test
 test_dataget = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1.0 / 255)
 test_generator = test_dataget.flow_from_directory(
-    data_dir / "prepared" / "test",
-    target_size=(IMAGE_WIDTH, IMAGE_HEIGHT),
-    batch_size=params["batch_size"],
+    data_dir / "raw" / "test",
+    target_size=(30, 30),
+    batch_size=32,
     class_mode="categorical",
 )
 
@@ -47,15 +43,15 @@ def get_model():
                 filters=32,
                 kernel_size=3,
                 activation="relu",
-                input_shape=(IMAGE_WIDTH, IMAGE_HEIGHT, 3),
+                input_shape=(30, 30, 3),
             ),
             tf.keras.layers.Conv2D(filters=64, kernel_size=3, activation="relu"),
-            tf.keras.layers.MaxPooling2D(2, 2),
-            tf.keras.layers.BatchNormalization(axis=-1),
-            tf.keras.layers.Conv2D(filters=128, kernel_size=3, activation="relu"),
-            tf.keras.layers.Conv2D(filters=256, kernel_size=3, activation="relu"),
-            tf.keras.layers.MaxPooling2D(2, 2),
-            tf.keras.layers.BatchNormalization(axis=-1),
+            # tf.keras.layers.MaxPooling2D(2, 2),
+            # tf.keras.layers.BatchNormalization(axis=-1),
+            # tf.keras.layers.Conv2D(filters=128, kernel_size=3, activation="relu"),
+            # tf.keras.layers.Conv2D(filters=256, kernel_size=3, activation="relu"),
+            # tf.keras.layers.MaxPooling2D(2, 2),
+            # tf.keras.layers.BatchNormalization(axis=-1),
             tf.keras.layers.Flatten(),
             tf.keras.layers.Dense(512, activation="relu"),
             tf.keras.layers.BatchNormalization(),
@@ -92,14 +88,11 @@ def main():
     history = model.fit(
         train_generator,
         steps_per_epoch=len(train_generator),
-        epochs=params["n_epochs"],
+        epochs=10,
         validation_data=test_generator,
         callbacks=callbacks,
     )
 
-    # Save the metrics
-    Path("metrics").mkdir(exist_ok=True)
-    pd.DataFrame(history.history).to_csv("metrics/metrics.csv", index=False)
 
 if __name__ == "__main__":
     main()
