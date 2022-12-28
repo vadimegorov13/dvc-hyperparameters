@@ -1,25 +1,22 @@
 from pathlib import Path
 import tensorflow as tf
 from dvclive.keras import DVCLiveCallback
+from dvc.api import params_show
 from dvclive import Live
 
 # Set the paths to the train and validation directories
 BASE_DIR = Path(__file__).parent.parent
 data_dir = BASE_DIR / "data"
 
-# Set up the logger
-logger = Live(save_dvc_exp=True)
+# Initialize a logger
+dvc_logger = Live(dir="evaluation")
 
-# Set the parameters
-params = {
-    "image_width": 33,
-    "image_height": 33,
-    "batch_size": 64,
-    "learning_rate": 0.003,
-    "n_epochs": 10
-}
+# Load the parameters from params.yaml
+params = params_show()["train"]
 
-logger.log_params(params)
+##############################################################################
+# Below, image width, height and batch_size parameters come from params.yaml #
+##############################################################################
 
 # Create an ImageDataGenerator object for the train set with augmentation
 train_datagen = tf.keras.preprocessing.image.ImageDataGenerator(
@@ -33,8 +30,8 @@ train_datagen = tf.keras.preprocessing.image.ImageDataGenerator(
 
 train_generator = train_datagen.flow_from_directory(
     data_dir / "raw" / "train",
-    target_size=(params['image_width'], params['image_height']),
-    batch_size=params['batch_size'],
+    target_size=(params["image_width"], params["image_height"]),
+    batch_size=params["batch_size"],
     class_mode="categorical",
 )
 
@@ -42,8 +39,8 @@ train_generator = train_datagen.flow_from_directory(
 test_dataget = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1.0 / 255)
 test_generator = test_dataget.flow_from_directory(
     data_dir / "raw" / "test",
-    target_size=(params['image_width'], params['image_height']),
-    batch_size=params['batch_size'],
+    target_size=(params["image_width"], params["image_height"]),
+    batch_size=params["batch_size"],
     class_mode="categorical",
 )
 
@@ -57,7 +54,7 @@ def get_model():
                 filters=32,
                 kernel_size=3,
                 activation="relu",
-                input_shape=(params['image_width'], params['image_height'], 3),
+                input_shape=(params["image_width"], params["image_height"], 3),
             ),
             tf.keras.layers.Conv2D(filters=64, kernel_size=3, activation="relu"),
             tf.keras.layers.MaxPooling2D(2, 2),
@@ -77,7 +74,8 @@ def get_model():
     # Compile the model
     model.compile(
         loss=tf.keras.losses.categorical_crossentropy,
-        optimizer=tf.keras.optimizers.Adam(learning_rate=params['learning_rate']),
+        # Learning rate is loaded from `params.yaml`
+        optimizer=tf.keras.optimizers.Adam(learning_rate=params["learning_rate"]),
         metrics=["accuracy", tf.keras.metrics.Precision(), tf.keras.metrics.Recall()],
     )
 
@@ -97,14 +95,15 @@ def main():
             model_path / "model.keras", monitor="val_accuracy", save_best_only=True
         ),
         tf.keras.callbacks.EarlyStopping(monitor="val_accuracy", patience=5),
-        DVCLiveCallback(live=logger),
+        DVCLiveCallback(live=dvc_logger),
     ]
 
     # Fit the model
     history = model.fit(
         train_generator,
         steps_per_epoch=len(train_generator),
-        epochs=params['n_epochs'],
+        # Number of epochs loaded from `params.yaml`
+        epochs=params["n_epochs"],
         validation_data=test_generator,
         callbacks=callbacks,
     )
