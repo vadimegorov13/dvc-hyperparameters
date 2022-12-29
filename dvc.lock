@@ -4,9 +4,9 @@ stages:
     cmd: python src/split.py
     deps:
     - path: data/raw/train
-      md5: 0b3cdf7bb8b50f51fd527c8b9ae28609.dir
-      size: 211467209
-      nfiles: 35289
+      md5: ee9a5fa8b7c214877a3e15872145e214.dir
+      size: 190372427
+      nfiles: 31782
     - path: src/split.py
       md5: 93dceb6c24db44d128846932baf3536c
       size: 1469
@@ -15,6 +15,52 @@ stages:
         split.ratio: 0.1
     outs:
     - path: data/raw/test
-      md5: c9d91ae994ca0382c3e0ed4eff465c93.dir
-      size: 24175777
-      nfiles: 3920
+      md5: e55bba4644fd63d464b55db34404d17c.dir
+      size: 21086056
+      nfiles: 3507
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+    - path: data/raw
+      md5: 0b33cdba43356ab12feb1cd1f61836b4.dir
+      size: 211458594
+      nfiles: 35291
+    - path: src/preprocess.py
+      md5: 5c4b224d5bdb75b2deeb8b243702cbc6
+      size: 1636
+    params:
+      params.yaml:
+        preprocess:
+          denoise_weight: 0.03
+          image_width: 30
+          image_height: 30
+    outs:
+    - path: data/prepared
+      md5: 07c141d7be6504e74642050c1300b1b3.dir
+      size: 151456179
+      nfiles: 35288
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data
+      md5: fda2c87b3deae8126a36c43dd6a7e603.dir
+      size: 362914783
+      nfiles: 70580
+    - path: src/train.py
+      md5: 6b511e9b9291fdaa030d800d03f0d80d
+      size: 3747
+    outs:
+    - path: evaluation/metrics.json
+      md5: d526f8607af42b33112e4c34e403ebc6
+      size: 367
+    - path: evaluation/plots
+      md5: 12d69b686b14e9cc9f04baf5af8bcf2d.dir
+      size: 989
+      nfiles: 8
+    - path: evaluation/report.html
+      md5: 82c3dfd04c1411f8ab75fe46472dc4cc
+      size: 27494
+    - path: models
+      md5: 9b9da8469b9844e3adec4d4082e5d437.dir
+      size: 44363432
+      nfiles: 1
