@@ -9,6 +9,6 @@ preprocess:
 train:
   image_width: 33
   image_height: 33
-  batch_size: 32
-  learning_rate: 0.003
-  n_epochs: 6
+  batch_size: 64
+  learning_rate: 0.01
+  n_epochs: 10
