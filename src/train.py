@@ -1,4 +1,8 @@
 from pathlib import Path
+
+# import os
+# os.environ['TF_XLA_FLAGS'] = '--tf_xla_disable_xla_devices'
+
 import tensorflow as tf
 from dvclive.keras import DVCLiveCallback
 from dvc.api import params_show

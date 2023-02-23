@@ -1,0 +1,41 @@
+schema: '2.0'
+stages:
+  split:
+    cmd: python src/split.py
+    deps:
+    - path: data/raw/train
+      md5: ac0599149c482989f1d503590dacb408.dir
+      size: 190470339
+      nfiles: 31781
+    - path: src/split.py
+      md5: 93dceb6c24db44d128846932baf3536c
+      size: 1469
+    params:
+      params.yaml:
+        split.ratio: 0.1
+    outs:
+    - path: data/raw/test
+      md5: 019d56eb143bab93ff4e56f19770b3c9.dir
+      size: 21457071
+      nfiles: 3508
+  preprocess:
+    cmd: python src/preprocess.py
+    deps:
+    - path: data/raw
+      md5: 98b1e85f7de67afa08be09cc61c2ac9e.dir
+      size: 211927521
+      nfiles: 35291
+    - path: src/preprocess.py
+      md5: 5c4b224d5bdb75b2deeb8b243702cbc6
+      size: 1636
+    params:
+      params.yaml:
+        preprocess:
+          denoise_weight: 0.03
+          image_width: 30
+          image_height: 30
+    outs:
+    - path: data/prepared
+      md5: 0ec9420ab396e4a2856891b38920b952.dir
+      size: 151737163
+      nfiles: 35289

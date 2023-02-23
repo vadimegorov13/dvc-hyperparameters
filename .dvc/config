@@ -1,0 +1,7 @@
+[core]
+    analytics = false
+    remote = remote_storage
+[cache]
+    dir = /Users/vadim/Desktop/Projects/python_projects/remote_cache/gtsrb/
+['remote "remote_storage"']
+    url = /Users/vadim/Desktop/Projects/python_projects/remote_storage/gtsrb/
