@@ -11,4 +11,4 @@ train:
   image_height: 33
   batch_size: 32
   learning_rate: 0.003
-  n_epochs: 5
+  n_epochs: 6
