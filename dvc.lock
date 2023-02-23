@@ -39,3 +39,28 @@ stages:
       md5: 0ec9420ab396e4a2856891b38920b952.dir
       size: 151737163
       nfiles: 35289
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data
+      md5: e4abe9edcdc359d18b8eec26cf73bcfe.dir
+      size: 363664694
+      nfiles: 70581
+    - path: src/train.py
+      md5: 1f7b8891d288165428ba0853e2e88fdb
+      size: 3827
+    outs:
+    - path: evaluation/metrics.json
+      md5: 3473ae2ce50b6f408144a4c2398df3ad
+      size: 369
+    - path: evaluation/plots
+      md5: aa0e19f9dfa94344bae76b31d75ac17b.dir
+      size: 946
+      nfiles: 8
+    - path: evaluation/report.html
+      md5: 43f65baa0770cd596e59f44500c6bfff
+      size: 25281
+    - path: models
+      md5: 5d1995c06c8eee42e2c6f2064836cbb0.dir
+      size: 44369360
+      nfiles: 1
